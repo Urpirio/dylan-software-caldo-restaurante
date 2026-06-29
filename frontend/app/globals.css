@@ -1,26 +1,164 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-brand-50: #fbf9f6;
+  --color-brand-100: #f5ebe0;
+  --color-brand-200: #ebd8c2;
+  --color-brand-300: #dec09e;
+  --color-brand-400: #cca072;
+  --color-brand-500: #e58e08; /* Golden Orange from Logo */
+  --color-brand-600: #ca7604;
+  --color-brand-650: #b06202;
+  --color-brand-700: #8b4e02;
+  --color-brand-800: #724003;
+  --color-brand-900: #5c381c; /* Dark Brown from Logo */
+  --color-brand-950: #3a2210;
+
+  --color-accent-gold: #d4af37;
+  --color-accent-gold-hover: #f3e5ab;
+
+  --color-dark-800: #1c1917;
+  --color-dark-900: #0c0a09;
+  --color-dark-950: #050404;
+
+  --font-sans: 'Outfit', var(--font-geist-sans), sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  --background: #faf8f5;
+  --foreground: #1c1917;
+  --card-background: #ffffff;
+  --border-color: #e7e5e4;
+  --shadow-color: rgba(120, 53, 15, 0.05);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0c0a09;
+    --foreground: #f5f5f4;
+    --card-background: #171513;
+    --border-color: #2e2a27;
+    --shadow-color: rgba(0, 0, 0, 0.3);
   }
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* -------------------------------------------------------
+   Glassmorphism
+------------------------------------------------------- */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glass {
+  background: rgba(23, 21, 19, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* -------------------------------------------------------
+   Scrollbar
+------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand-500);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-600);
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* -------------------------------------------------------
+   Animaciones personalizadas
+------------------------------------------------------- */
+
+/* Float suave — para el logo/hero icon */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+.animate-float {
+  animation: float 3.5s ease-in-out infinite;
+}
+
+/* Shimmer — para skeletons y badges de carga */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.animate-shimmer {
+  background: linear-gradient(90deg, var(--color-brand-100) 25%, var(--color-brand-200) 50%, var(--color-brand-100) 75%);
+  background-size: 200% auto;
+  animation: shimmer 1.8s linear infinite;
+}
+
+/* Gradiente animado en texto — para el título CALDO */
+@keyframes gradient-x {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 4s ease infinite;
+}
+
+/* Fade-up suave — para cards al entrar */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up {
+  animation: fade-up 0.45s ease both;
+}
+
+/* Pulse lento — para indicadores de disponibilidad */
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 2.5s ease-in-out infinite;
+}
+
+/* Shake animation for errors */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+.animate-shake {
+  animation: shake 0.3s ease-in-out;
+}
+
+/* Patrón de puntos para fondos premium */
+.bg-dots {
+  background-image: radial-gradient(rgba(229, 142, 8, 0.15) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+.dark .bg-dots {
+  background-image: radial-gradient(rgba(229, 142, 8, 0.07) 1.5px, transparent 1.5px);
 }
